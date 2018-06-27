@@ -1,5 +1,7 @@
 import java.util.Scanner;
 public class TicTacToe {
+	
+	public enum Player { PLAYERONE, PLAYERTWO }
 
    static char[][] board = new char[3][3];
    
@@ -44,9 +46,8 @@ public class TicTacToe {
 	 initGame();
 	 printBoard();
 	 playGame();
-	 hasWonHorizontal();
-	 hasWonVertical();
-	 hasWonDiagonal();
+	 
+	 
 	 
 	   
    }
@@ -88,9 +89,20 @@ public class TicTacToe {
    //Prompts the user to make their first move, Player 1 gets the character x and Player 2 gets the character O.
    public static void playGame()
    {
+	   int spotSelection;
+	   boolean isPlayerOnesTurn = true;
+	   boolean hasGameEnded = false;
+	   while (hasGameEnded == false)
+	   {
+		  if (isPlayerOnesTurn == true)
+		  {
+			  spotSelection = getPlayerInput(Player.PLAYERONE);  
+		  }
+		  else
+		  {
+			  spotSelection = getPlayerInput(Player.PLAYERTWO);
+		  }
 	   
-	   System.out.println("Player 1 it is your turn, please choose a number 1-9 where you'd like to place an X.");
-	   int spotSelection = kb.nextInt();
 	   int row = -1;
 	   int col = -1;
 	   
@@ -132,6 +144,13 @@ public class TicTacToe {
 	   }
 	   
 	   printBoard();
+	   hasGameEnded = hasGameEnded();
+	   if (!hasGameEnded)
+	   {
+		   isPlayerOnesTurn = !isPlayerOnesTurn;
+		   	
+	   }
+	   }
    }
    
    public static void hasWonHorizontal()
@@ -147,5 +166,21 @@ public class TicTacToe {
    public static void hasWonDiagonal()
    {
 	   
+   }
+   public static int getPlayerInput(Player player)
+   {
+	   String prompt = ("Player %d it is your turn, please choose a number 1-9 where you'd like to place an X.");
+	   
+	   
+	   System.out.printf(prompt, player.ordinal() + 1);
+	   int spotSelection = kb.nextInt();
+	   return spotSelection;
+   }
+   public static boolean hasGameEnded()
+   {
+	   hasWonHorizontal();
+	   hasWonVertical();
+	   hasWonDiagonal();
+	   return false;
    }
 }
