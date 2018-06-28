@@ -132,15 +132,25 @@ public class TicTacToe {
 		   
 	   default :
 		   System.out.println(("Invalid input"));
-		   
-		   
-	   
-		   
+		   continue;
 	   }
 	   
 	   if (row != -1 || col != -1) 
 	   {
-		   board[row][col] = 'X';
+		   if (isPlayerOnesTurn)
+		   {
+			   board[row][col] = 'X';
+		   }
+		   else
+		   {
+			   board[row][col] = 'O';
+		   }
+		   
+	   }
+	    
+	   if (!isPlayerOnesTurn)
+	   {
+		   board[row][col] = 'O';
 	   }
 	   
 	   printBoard();
@@ -169,11 +179,19 @@ public class TicTacToe {
    }
    public static int getPlayerInput(Player player)
    {
-	   String prompt = ("Player %d it is your turn, please choose a number 1-9 where you'd like to place an X.");
+	   String prompt = ("Player %d it is your turn, please choose a number 1-9 where you'd like to play.");
 	   
-	   
+	   int spotSelection;
 	   System.out.printf(prompt, player.ordinal() + 1);
-	   int spotSelection = kb.nextInt();
+	   try
+	   {
+		   spotSelection = kb.nextInt();
+	   }
+	   catch (java.util.InputMismatchException ex)
+	   {
+		   spotSelection = - 1;
+		   kb.next();
+	   }
 	   return spotSelection;
    }
    public static boolean hasGameEnded()
