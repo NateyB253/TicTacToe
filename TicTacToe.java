@@ -55,11 +55,13 @@ public class TicTacToe {
    // Create the game board and initialize it 
    public static void initGame()
    {
+	   int boardNum = 1;
 	   for (int i = 0; i < 3; i++)
 	   {
 		for (int j = 0; j < 3; j++)
 		{
-			board[i][j] = '-';
+			board[i][j] = (char) (boardNum + '0');
+			boardNum++;
 		}
 	   }
 	   
@@ -154,27 +156,71 @@ public class TicTacToe {
 	   }
 	   
 	   printBoard();
-	   hasGameEnded = hasGameEnded();
+	   hasGameEnded = hasGameEnded(row, col);
+	   
 	   if (!hasGameEnded)
 	   {
 		   isPlayerOnesTurn = !isPlayerOnesTurn;
 		   	
 	   }
+	   else
+	   {
+		   System.out.println("Congrats you win");
 	   }
-   }
-   
-   public static void hasWonHorizontal()
-   {
+	   }
+	   
 	   
    }
    
-   public static void hasWonVertical()
+   public static boolean hasWonHorizontal(int row)
    {
+	   char temp;
+	   temp = board[row][0];
+	   for (int col = 1; col < 3; col++)
+	   {
+		   if (temp != board[row][col])
+		   {
+			   return false;
+		   }
+	   }
+	   return true;
 	   
    }
    
-   public static void hasWonDiagonal()
+   public static boolean hasWonVertical(int col)
    {
+	   char temp;
+	   temp = board[0][col];
+	   for (int row = 1; row < 3; row++)
+	   {
+		   if (temp != board[row][col])
+		   {
+			   return false;
+		   }
+	   }
+	   return true;
+   }
+   
+   public static boolean hasWonDiagonal(int row, int col)
+   {
+		char temp;
+		temp = board[row][col];
+		for (int i = 0; i < 3; i++)
+		{
+			if (temp != board[i][i])
+			{
+				return false;
+			}
+		}
+		
+		for ( int i = 0, j = 2; i < 3; i++, j--)
+		{
+			if (temp != board[i][j])
+			{
+				return false;
+			}
+		}
+	   return true;
 	   
    }
    public static int getPlayerInput(Player player)
@@ -194,11 +240,14 @@ public class TicTacToe {
 	   }
 	   return spotSelection;
    }
-   public static boolean hasGameEnded()
+   public static boolean hasGameEnded(int row, int col)
    {
-	   hasWonHorizontal();
-	   hasWonVertical();
-	   hasWonDiagonal();
-	   return false;
+	   boolean hasWon = false;
+	   hasWon = hasWonHorizontal(row) || hasWonVertical(col);
+	   if (hasWon != true && (row != 1 && col != 1))
+	   {
+	   hasWon = hasWonDiagonal(row, col);
+	   }
+	   return hasWon;
    }
 }
