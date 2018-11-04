@@ -3,8 +3,6 @@ public class TicTacToe {
 
 	public enum Player { PLAYERONE, PLAYERTWO }
 
-	private static final char PLAYERONE = 0;
-
 	static char[][] board = new char[3][3];
 
 	static Scanner kb = new Scanner(System.in);
@@ -214,30 +212,31 @@ public class TicTacToe {
 
 	public static boolean hasWonDiagonal(int row, int col)
 	{
-		boolean hasWon = true;
+		boolean hasWon1 = true;
+		boolean hasWon2 = true;
 		char temp;
 		temp = board[row][col];
 		for (int i = 0; i < 3; i++)
 		{
 			if (temp != board[i][i])
 			{
-				hasWon = false;
+				hasWon1 = false;
 				continue;
 			}
 		}
 
-		if (hasWon == false)
+		if (hasWon1 == false)
 		{
 			for ( int i = 0, j = 2; i < 3; i++, j--)
 			{
 				if (temp != board[i][j])
 				{
-					hasWon = false;
+					hasWon2 = false;
 					continue;
 				}
 			}
 		}
-		return hasWon;
+		return hasWon1 || hasWon2;
 
 	}
 	public static int getPlayerInput(Player player)
